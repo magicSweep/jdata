@@ -38,6 +38,34 @@
     "./firebase.auth": "./dist/service/firebase-auth/index.js",
     "./firebase.auth.fake": "./dist/service/firebase-auth/firebase-auth.fake.js"
   },
+  "typesVersions": {
+    "*": {
+      "cloudinary": [
+        "dist/service/cloudinary/index.d.ts"
+      ],
+      "cloudinary.fake": [
+        "dist/service/cloudinary/cloudinary.fake.d.ts"
+      ],
+      "firestore": [
+        "./dist/service/firestore/index.d.ts"
+      ],
+      "firestore.fake": [
+        "./dist/service/firestore/firestore.fake.d.ts"
+      ],
+      "google.drive": [
+        "./dist/service/googleDrive/index.d.ts"
+      ],
+      "google.drive.fake": [
+        "./dist/service/googleDrive/googleDrive.fake.d.ts"
+      ],
+      "firebase.auth": [
+        "./dist/service/firebase-auth/index.d.ts"
+      ],
+      "firebase.auth.fake": [
+        "./dist/service/firebase-auth/firebase-auth.fake.d.ts"
+      ]
+    }
+  },
   "peerDependencies": {
     "cloudinary": "^1.29.1",
     "firebase-admin": "^10.1.0",
