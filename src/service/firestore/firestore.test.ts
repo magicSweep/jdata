@@ -8,16 +8,6 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
-// WE CAN NOT TEST FIRESTORE CAUSE OF IT IMPORTS LIKE FIREBASE/ADMIN
-// BABEL-JEST DO NOT HELP US - DO NOT KNOW WHY
-/* describe("Firestore", () => {
-  describe.skip("getAll", () => {
-    test("", async () => {
-      expect(true).toBe(true);
-    });
-  });
-}); */
-
 describe("Firestore", () => {
   beforeAll(() => {
     init();
@@ -30,4 +20,12 @@ describe("Firestore", () => {
       expect(files).toBe("hello");
     });
   });
+
+  /*  
+    addOne({
+      date: new Date().toUTCString(),
+      _timestamp: Timestamp.fromDate(new Date()),
+  }).then((res) => console.log("[RESULT]", res)); 
+
+  getOne("3v4xjUQHp8S4P52ifQvU").then((res) => console.log("[RESULT]", res)); */
 });
