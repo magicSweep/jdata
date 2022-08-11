@@ -1,8 +1,4 @@
-import { readFile, writeFile, existsSync, unlinkSync } from "fs";
-import { promisify } from "util";
-import { join } from "path";
-import { init, getAll } from ".";
-import wait from "waait";
+import { init, getAll, getOneByArrayContainsCondition } from ".";
 import path from "path";
 import dotenv from "dotenv";
 
@@ -13,11 +9,22 @@ describe("Firestore", () => {
     init();
   });
 
-  describe("getAll", () => {
-    test.skip("", async () => {
-      const files = await getAll("tags")();
+  describe.skip("getAll", () => {
+    test("", async () => {
+      const docs = await getAll("tags")();
 
-      expect(files).toBe("hello");
+      expect(docs).toBe("hello");
+    });
+  });
+
+  describe("getOneByArrayContainsCondition", () => {
+    test("", async () => {
+      const doc = await getOneByArrayContainsCondition("photos")(
+        "files",
+        "j57vpvhxf"
+      );
+
+      expect(doc).toBe(undefined);
     });
   });
 

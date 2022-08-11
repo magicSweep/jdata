@@ -3,6 +3,8 @@ import { google, drive_v3, GoogleApis } from "googleapis";
 import { createWriteStream, createReadStream } from "fs";
 import { DriveFileInfo } from "./types";
 import { Logger } from "winston";
+import jwt from "jsonwebtoken";
+//import { promisify } from "util";
 
 export let drive: drive_v3.Drive | unknown = undefined;
 
@@ -41,6 +43,8 @@ export const init_ = async (
       private_key = private_key.replace(/\\n/g, "\n");
     }
 
+    //google.auth.getAccessToken;
+
     const client = await google.auth.getClient({
       credentials: {
         private_key,
@@ -65,6 +69,35 @@ export const init_ = async (
     });
   }
 };
+
+//const jwtSign = promisify(jwt.sign);
+
+// GET https://www.googleapis.com/youtube/v3/channels?access_token=access_token&part=snippet&mine=true
+
+/* GET /youtube/v3/channels?part=snippet&mine=true HTTP/1.1
+Host: www.googleapis.com
+Authorization: Bearer access_token */
+export const createToken =
+  (
+    privateKeyId: string,
+    clientEmail: string,
+    serviceUrl: string,
+    privateKey: string
+  ) =>
+  () => {
+    return jwt.sign(
+      {
+        iss: clientEmail,
+        sub: clientEmail,
+        // https://SERVICE.googleapis.com/.
+        aud: serviceUrl,
+        iat: Date.now(),
+        exp: Date.now() + 10 * 60 * 1000,
+      },
+      privateKey,
+      { algorithm: "RS256", keyid: privateKeyId }
+    );
+  };
 
 export const init = (logger: Logger) =>
   init_(

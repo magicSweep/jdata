@@ -78,7 +78,7 @@ describe("Google drive", () => {
       const file = await searchFileByName("photo-1642515041749-398075704.webp");
 
       expect(file).not.toEqual(undefined);
-      expect((file as any).name).toEqual("hello");
+      expect((file as any).name).toEqual("photo-1642515041749-398075704.webp");
     });
   });
 

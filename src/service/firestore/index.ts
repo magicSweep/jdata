@@ -116,6 +116,45 @@ export const exists =
     return doc.exists;
   };
 
+export const executeQuery = async (
+  queryRef: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>
+) => {
+  const snapshot = await queryRef.get();
+
+  if (snapshot.empty) {
+    return;
+  }
+
+  const doc = snapshot.docs[0];
+
+  return {
+    id: doc.id,
+    ...doc.data(),
+  };
+};
+
+export const getOneByArrayContainsCondition =
+  (collectionName: string) =>
+  (rowName: string, value: any): Promise<any | undefined> => {
+    const db = getFirestore();
+
+    const queryRef = db
+      .collection(collectionName)
+      .where(rowName, "array-contains", value);
+
+    return executeQuery(queryRef);
+  };
+
+export const getOneByEqualCondition =
+  (collectionName: string) =>
+  (rowName: string, value: any): Promise<any | undefined> => {
+    const db = getFirestore();
+
+    const queryRef = db.collection(collectionName).where(rowName, "==", value);
+
+    return executeQuery(queryRef);
+  };
+
 export const getOne =
   (collectionName: string) =>
   async (docId: string): Promise<any | undefined> => {
