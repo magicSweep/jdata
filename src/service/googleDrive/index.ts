@@ -266,17 +266,22 @@ export const downloadImage_ =
 
 export const downloadImage = downloadImage_(getDrive);
 
+export type UploadImageProps = {
+  fileName: string;
+  pathToPhoto: string;
+  // "image/jpeg"
+  mimeType?: string;
+  readStream?: any;
+};
+
 export const uploadImage_ =
-  (
-    getDrive: () => drive_v3.Drive,
-    getParents: () => string[],
-    readStream?: any
-  ) =>
-  async (
-    fileName: string,
-    pathToPhoto: string,
-    mimeType: string = "image/jpeg"
-  ): Promise<DriveFileInfo> => {
+  (getDrive: () => drive_v3.Drive, getParents: () => string[]) =>
+  async ({
+    fileName,
+    pathToPhoto,
+    mimeType,
+    readStream,
+  }: UploadImageProps): Promise<DriveFileInfo> => {
     //const fileSize = statSync(pathToPhoto).size;
 
     const res = await getDrive().files.create(
