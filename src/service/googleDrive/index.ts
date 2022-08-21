@@ -237,7 +237,7 @@ export const downloadImage_ =
   async (fileId: string, destPath: string) => {
     const dest = createWriteStream(destPath);
 
-    const res: any = await getDrive().files.get(
+    const res = await getDrive().files.get(
       { fileId, alt: "media" },
       { responseType: "stream" }
     );
@@ -267,7 +267,11 @@ export const downloadImage_ =
 export const downloadImage = downloadImage_(getDrive);
 
 export const uploadImage_ =
-  (getDrive: () => drive_v3.Drive, getParents: () => string[]) =>
+  (
+    getDrive: () => drive_v3.Drive,
+    getParents: () => string[],
+    readStream?: any
+  ) =>
   async (
     fileName: string,
     pathToPhoto: string,
@@ -284,7 +288,10 @@ export const uploadImage_ =
         },
         media: {
           mimeType,
-          body: createReadStream(pathToPhoto),
+          body:
+            readStream !== undefined
+              ? readStream
+              : createReadStream(pathToPhoto),
         },
       }
       /* {
