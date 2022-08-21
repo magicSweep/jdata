@@ -108,7 +108,10 @@ describe("Google drive", () => {
 
   describe.skip("uploadImageToDrive", () => {
     test("", async () => {
-      const file = await uploadImage("photo_234ERETR.jpg", pathToUploadPhoto);
+      const file = await uploadImage({
+        fileName: "photo_234ERETR.jpg",
+        pathToPhoto: pathToUploadPhoto,
+      });
 
       const result = await isFileExists(file.id as string);
 
@@ -119,10 +122,10 @@ describe("Google drive", () => {
   // updateImageFile
   describe.skip("updateImageFile", () => {
     test("", async () => {
-      const originalPhotoInfo = await uploadImage(
-        "photo_234ERETR.jpg",
-        pathToUploadPhoto
-      );
+      const originalPhotoInfo = await uploadImage({
+        fileName: "photo_234ERETR.jpg",
+        pathToPhoto: pathToUploadPhoto,
+      });
 
       await wait(3000);
 

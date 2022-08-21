@@ -1,7 +1,7 @@
 //export { drive, isFileExists, initDrive } from "./helper";
 import { google, drive_v3, GoogleApis } from "googleapis";
 import { createWriteStream, createReadStream } from "fs";
-import { DriveFileInfo } from "./types";
+import { DriveFileInfo, UploadImageProps } from "./types";
 import { Logger } from "winston";
 import jwt from "jsonwebtoken";
 //import { promisify } from "util";
@@ -266,14 +266,6 @@ export const downloadImage_ =
 
 export const downloadImage = downloadImage_(getDrive);
 
-export type UploadImageProps = {
-  fileName: string;
-  pathToPhoto: string;
-  // "image/jpeg"
-  mimeType?: string;
-  readStream?: any;
-};
-
 export const uploadImage_ =
   (getDrive: () => drive_v3.Drive, getParents: () => string[]) =>
   async ({
@@ -283,6 +275,11 @@ export const uploadImage_ =
     readStream,
   }: UploadImageProps): Promise<DriveFileInfo> => {
     //const fileSize = statSync(pathToPhoto).size;
+    if (pathToPhoto === undefined && readStream === undefined) {
+      throw new Error(
+        "We need some file source - path to photo or read stream"
+      );
+    }
 
     const res = await getDrive().files.create(
       {
@@ -296,7 +293,7 @@ export const uploadImage_ =
           body:
             readStream !== undefined
               ? readStream
-              : createReadStream(pathToPhoto),
+              : createReadStream(pathToPhoto as string),
         },
       }
       /* {

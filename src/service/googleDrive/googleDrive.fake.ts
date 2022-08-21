@@ -8,6 +8,7 @@
 import { Path } from "../../types";
 import wait from "waait";
 import { Logger } from "winston";
+import { UploadImageProps } from "./types";
 
 /*
  id, name, mimeType, originalFileName, size
@@ -23,15 +24,12 @@ export const isFileExists = async (photoId: string) => {
   return true;
 };
 
-export const uploadImage = async (
-  photoFileName: string,
-  pathToPhoto: string
-) => {
+export const uploadImage = async (props: UploadImageProps) => {
   await wait(2000);
 
   return {
     id: "superId",
-    name: photoFileName,
+    name: "photo-name.jpeg",
   };
 };
 
