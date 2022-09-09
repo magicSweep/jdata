@@ -64,7 +64,7 @@ export const addOne =
     else docRef = db.collection(collectionName).doc(id);
 
     /* const res: firestore.WriteResult = */
-    await docRef.set(docData);
+    await docRef.set(docData as any);
 
     return true;
   };
@@ -75,7 +75,10 @@ export const addMany =
     const db = getFirestore();
 
     const promises = docsData.map((data) => {
-      return db.collection(collectionName).doc().set(data);
+      return db
+        .collection(collectionName)
+        .doc()
+        .set(data as any);
     });
 
     await Promise.all(promises);
