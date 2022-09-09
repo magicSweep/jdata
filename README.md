@@ -1,4 +1,4 @@
-# Get data from different storages - firestore, cloudinary, google drive.
+# Manage data with different storages - firestore, cloudinary, google drive.
 
 ## Build and publish
 
