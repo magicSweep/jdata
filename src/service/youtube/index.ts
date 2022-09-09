@@ -3,6 +3,7 @@ import { createWriteStream, createReadStream, ReadStream } from "fs";
 import { YoutubeVideoInfo } from "./types";
 import { Logger } from "winston";
 import { OAuth2Client } from "google-auth-library";
+const readline = require("readline");
 
 export let auth: OAuth2Client;
 
@@ -18,6 +19,50 @@ const SCOPES = [
   "https://www.googleapis.com/auth/youtube.upload",
   "https://www.googleapis.com/auth/youtube.readonly",
 ];
+
+export const getNewToken =
+  (
+    clientSecret: string,
+    clientId: string,
+    redirectUrl: string,
+    scopes: string[]
+  ) =>
+  () => {
+    //return new Promise((resolve, reject) => {
+    const oauth2Client = new google.auth.OAuth2(
+      clientId,
+      clientSecret,
+      redirectUrl
+    );
+
+    const authUrl = oauth2Client.generateAuthUrl({
+      access_type: "offline",
+      scope: scopes,
+    });
+    console.log("Authorize this app by visiting this url: ", authUrl);
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+    rl.question(
+      "Enter the code from that page here: ",
+      function (code: string) {
+        rl.close();
+        oauth2Client.getToken(code, function (err, token) {
+          if (err) {
+            console.log("Error while trying to retrieve access token", err);
+            return;
+          }
+          console.log("--TOKEN--", token);
+          //resolve(token);
+          //oauth2Client.credentials = token;
+          //storeToken(token);
+          //callback(oauth2Client);
+        });
+      }
+    );
+    //});
+  };
 
 export const init_ = (
   google: GoogleApis,

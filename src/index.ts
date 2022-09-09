@@ -3,6 +3,7 @@ export {
   getVideosByIds,
   uploadVideo,
   deleteVideoById,
+  getNewToken,
 } from "./service/youtube";
 export * as cloudinary from "./service/cloudinary";
 export * as googleDrive from "./service/googleDrive";
