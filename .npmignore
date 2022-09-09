@@ -11,3 +11,4 @@ tsconfig.json
 tsconfig.lib.json
 .env
 babel.config.js
+nodemon.json
